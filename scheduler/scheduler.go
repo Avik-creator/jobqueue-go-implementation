@@ -20,7 +20,7 @@ type JobHeap []*ScheduleJob
 func (h JobHeap) Len() int           { return len(h) }
 func (h JobHeap) Less(i, j int) bool { return h[i].ScheduleTime.Before(h[j].ScheduleTime) }
 
-func (h JobHeap) Swap(i, j int) { h[i], h[j] = h[j], h[i] }
+func (h JobHeap) Swap(i, j int) { h[i], h[j] = h[j], h[i]; h[i].index, h[j].index = j, i }
 
 func (h *JobHeap) Push(x interface{}) {
 	job := x.(*ScheduleJob)
