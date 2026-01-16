@@ -87,12 +87,16 @@ func (q *JobQueue) MoveJobToDeadLetterQueue(job utils.Job) *JobQueue {
 	q.mu.Lock()
 	defer q.mu.Unlock()
 
+	// First remove from regular queue
 	switch job.Priority {
 	case utils.High:
+		q.queue[utils.High] = utils.RemoveJob(q.queue[utils.High], job)
 		q.deadLetterQueue[utils.High] = append(q.deadLetterQueue[utils.High], job)
 	case utils.Medium:
+		q.queue[utils.Medium] = utils.RemoveJob(q.queue[utils.Medium], job)
 		q.deadLetterQueue[utils.Medium] = append(q.deadLetterQueue[utils.Medium], job)
 	case utils.Low:
+		q.queue[utils.Low] = utils.RemoveJob(q.queue[utils.Low], job)
 		q.deadLetterQueue[utils.Low] = append(q.deadLetterQueue[utils.Low], job)
 	}
 	return q
